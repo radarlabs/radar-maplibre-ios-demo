@@ -18,7 +18,7 @@ struct MapView: UIViewRepresentable {
         let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.logoView.isHidden = true
-        mapView.isRotateEnabled = false;
+        mapView.isRotateEnabled = false
 
         // set initial position
         mapView.setCenter(
