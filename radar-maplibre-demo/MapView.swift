@@ -3,7 +3,7 @@ import MapLibre
 
 struct MapView: UIViewRepresentable {
     @State private var markerCount = 0
-    
+
     func makeCoordinator() -> Coordinator {
         Coordinator(self, markerCount: $markerCount)
     }
@@ -20,12 +20,12 @@ struct MapView: UIViewRepresentable {
         mapView.logoView.isHidden = true
         mapView.isRotateEnabled = false
 
-        // set initial position
-        mapView.setCenter(
-            CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911),
-            zoomLevel: 11,
-            animated: false
-        )
+        mapView.setCenter(CLLocationCoordinate2D(latitude: 40.7342, longitude: -73.9911), zoomLevel: 11, animated: false)
+
+        // set min and max zoom levels
+        mapView.maximumZoomLevel = 15
+        mapView.minimumZoomLevel = 7
+        mapView.allowsTilting = false
         
         // setup map tap listener
         let singleTap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleMapTap(sender:)))

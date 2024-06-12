@@ -10,7 +10,7 @@ import SwiftUI
 struct radar_maplibre_demoApp: App {
     var body: some Scene {
         WindowGroup {
-            MapView()
+            MapView().ignoresSafeArea()
         }
     }
 }
