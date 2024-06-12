@@ -27,7 +27,7 @@ struct MapView: UIViewRepresentable {
             animated: false
         )
         
-        // setup tap listener
+        // setup map tap listener
         let singleTap = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleMapTap(sender:)))
         for recognizer in mapView.gestureRecognizers! where recognizer is UITapGestureRecognizer {
             singleTap.require(toFail: recognizer)
@@ -75,6 +75,7 @@ struct MapView: UIViewRepresentable {
             self.isMapLoaded = true
         }
         
+        // handle annotation
         func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
             // provide the custom image for the annotation
             let markerId = "marker"
@@ -89,18 +90,17 @@ struct MapView: UIViewRepresentable {
             }
         }
         
-        
+        // show popup
         func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
             return true
         }
         
-        func mapView(_ mapView: MLNMapView, calloutAccessoryControlTapped control: UIControl, for annotation: MLNAnnotation) {
-            if let pointAnnotation = annotation as? MLNPointAnnotation {
-                print("Callout for marker tapped: \(pointAnnotation.title ?? "")")
-            }
+        // handle marker tap
+        func mapView(_ mapView: MLNMapView, didSelect marker: MLNAnnotation) {
+            print("Marker tapped: \(String(describing: marker.title ?? ""))")
         }
 
-        
+        // handle map tap - create new marker at tap location
         @objc func handleMapTap(sender: UITapGestureRecognizer) {
             guard let mapView = sender.view as? MLNMapView else { return }
 
