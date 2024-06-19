@@ -6,12 +6,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "click-marker@3x 1.png",
+      "filename" : "click-marker@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "click-marker@2x.png",
+      "filename" : "click-marker@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
