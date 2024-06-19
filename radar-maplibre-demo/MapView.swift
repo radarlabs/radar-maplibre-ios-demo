@@ -10,7 +10,7 @@ struct MapView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> MLNMapView {
         let style = "radar-default-v1"
-        let publishableKey = "prj_test_pk_ca1c535d59d979f05256cd964ec3c15f3016bb8e"
+        let publishableKey = "<RADAR_PUBLISHABLE_KEY>"
         let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
 
         // create new map view
