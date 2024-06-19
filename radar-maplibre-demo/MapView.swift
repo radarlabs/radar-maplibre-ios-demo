@@ -10,7 +10,7 @@ struct MapView: UIViewRepresentable {
     
     func makeUIView(context: Context) -> MLNMapView {
         let style = "radar-default-v1"
-        let publishableKey = "<RADAR_PUBLISHABLE_KEY>"
+        let publishableKey = "prj_test_pk_ca1c535d59d979f05256cd964ec3c15f3016bb8e"
         let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
 
         // create new map view
@@ -76,32 +76,46 @@ struct MapView: UIViewRepresentable {
         }
         
         // handle annotation
-        func mapView(_ mapView: MLNMapView, imageFor annotation: MLNAnnotation) -> MLNAnnotationImage? {
-            // provide the custom image for the annotation
-            let markerId = "marker"
-            if let annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: markerId) {
+        func mapView(_ mapView: MLNMapView, viewFor annotation: MLNAnnotation) -> MLNAnnotationView? {
+            let markerId = "marker";
+            
+            if let annotationImage = mapView.dequeueReusableAnnotationView(withIdentifier: markerId) {
                 return annotationImage
             } else {
                 guard let image = UIImage(named: markerId) else {
                     return nil
                 }
-                let annotationImage = MLNAnnotationImage(image: image, reuseIdentifier: markerId)
-                return annotationImage
+                let annotationView = MLNAnnotationView(reuseIdentifier: markerId)
+                annotationView.addSubview(UIImageView(image: image))
+                annotationView.frame.size = image.size
+                // maybe shift pin up so that the bottom is where the user clicked
+                annotationView.centerOffset.dy = -image.size.height / 2
+                
+                return annotationView
             }
+        }
+        
+        // selected marker
+        func mapView(_ mapView: MLNMapView, didSelect markerView: MLNAnnotationView) {
+            let imageView = markerView.subviews.first as! UIImageView
+            imageView.image = UIImage(named:"marker")
+        }
+        
+        // deselect marker
+        func mapView(_ mapView: MLNMapView, didDeselect markerView: MLNAnnotationView) {
+            let imageView = markerView.subviews.first as! UIImageView
+            imageView.image = UIImage(named:"marker")
+            
         }
         
         // show popup
         func mapView(_ mapView: MLNMapView, annotationCanShowCallout annotation: MLNAnnotation) -> Bool {
             return true
         }
-        
-        // handle marker tap
-        func mapView(_ mapView: MLNMapView, didSelect marker: MLNAnnotation) {
-            print("Marker tapped: \(String(describing: marker.title ?? ""))")
-        }
 
         // handle map tap - create new marker at tap location
         @objc func handleMapTap(sender: UITapGestureRecognizer) {
+            
             guard let mapView = sender.view as? MLNMapView else { return }
 
             // convert tap location to geographic coordinate
