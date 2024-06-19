@@ -88,24 +88,25 @@ struct MapView: UIViewRepresentable {
                 let annotationView = MLNAnnotationView(reuseIdentifier: markerId)
                 annotationView.addSubview(UIImageView(image: image))
                 annotationView.frame.size = image.size
-                // maybe shift pin up so that the bottom is where the user clicked
+                // shift pin up so that the bottom is where the user clicked
                 annotationView.centerOffset.dy = -image.size.height / 2
                 
                 return annotationView
             }
         }
         
-        // selected marker
+        // handle marker view selected
         func mapView(_ mapView: MLNMapView, didSelect markerView: MLNAnnotationView) {
             let imageView = markerView.subviews.first as! UIImageView
-            imageView.image = UIImage(named:"marker")
+            imageView.image = UIImage(named:"marker-selected")
+            // markerView.annotation to access to underlying MLNAnnotation
         }
         
-        // deselect marker
+        // update marker image on deselect
         func mapView(_ mapView: MLNMapView, didDeselect markerView: MLNAnnotationView) {
             let imageView = markerView.subviews.first as! UIImageView
             imageView.image = UIImage(named:"marker")
-            
+            // markerView.annotation to access to underlying MLNAnnotation
         }
         
         // show popup
