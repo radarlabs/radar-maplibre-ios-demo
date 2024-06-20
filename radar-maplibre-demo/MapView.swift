@@ -12,7 +12,12 @@ struct MapView: UIViewRepresentable {
         let style = "radar-default-v1"
         let publishableKey = "<RADAR_PUBLISHABLE_KEY>"
         let styleURL = URL(string: "https://api.radar.io/maps/styles/\(style)?publishableKey=\(publishableKey)")
-
+        
+        // set up radar request header, required for the mobile restrictions setting.
+        let sessionConfig = URLSessionConfiguration.default
+        sessionConfig.httpAdditionalHeaders = ["X-Radar-Mobile-Origin": Bundle.main.bundleIdentifier ?? ""]
+        MLNNetworkConfiguration.sharedManager.sessionConfiguration = sessionConfig
+        
         // create new map view
         // https://maplibre.org/maplibre-native/ios/latest/documentation/maplibre/mlnmapview
         let mapView = MLNMapView(frame: .zero, styleURL: styleURL)
